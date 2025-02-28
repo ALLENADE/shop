@@ -1,13 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
 import { useCallback } from "react";
+import { reviewData } from "../reviewData";
+import Image from "next/image";
 
-const Review = () => {
+const Feedback = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
-    slidesToScroll: 4,
+    slidesToScroll: 1, // Make it scroll smoothly one by one
     containScroll: "trimSnaps",
   });
 
@@ -21,9 +27,10 @@ const Review = () => {
 
   return (
     <div>
+      {/* Header Section */}
       <div className="flex flex-nowrap md:flex-row md:items-center md:justify-between md:mb-8 md:px-24 items-center justify-between mx-8 py-8">
         <h2 className="md:text-2xl text-[16px] font-semibold whitespace-nowrap">
-          Shop by Categories
+          What Our Customers Say
         </h2>
         <div className="flex items-center gap-3 md:gap-4">
           <Button variant="outline" className="rounded-md" onClick={scrollPrev}>
@@ -38,27 +45,35 @@ const Review = () => {
         </div>
       </div>
 
+      {/* Embla Carousel Wrapper */}
       <div className="overflow-hidden px-20" ref={emblaRef}>
         <div className="flex -ml-6">
-          {categories.map((category) => (
+          {reviewData.map(({ id, name, review, image, rating }) => (
             <div
-              key={category.id}
+              key={id}
               className="sm:min-w-[50%] min-w-[100%] md:pl-6 md:min-w-[25%] p-2"
             >
+              {/* Card for Review */}
               <Card className="md:p-0 md:overflow-hidden md:border-0 ">
-                <div className="h-[320px] bg-[#F3F3F3] relative group cursor-pointer">
-                  <Image
-                    src={category.image}
-                    alt={category.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
-                    <h3 className="text-white text-xl font-semibold">
-                      {category.title}
-                    </h3>
-                  </div>
+                {/* Image Wrapper (Fixed Issue) */}
+                <div className="relative w-16 h-16 mx-auto rounded-full overflow-hidden mb-4">
+                  <Image src={image} alt={name} fill className="object-cover" />
                 </div>
+
+                {/* Review Content */}
+                <CardHeader className="text-center">
+                  <CardTitle className="text-lg font-semibold">
+                    {name}
+                  </CardTitle>
+                  <CardDescription className="text-gray-600">
+                    {review}
+                  </CardDescription>
+
+                  {/* ⭐️ Rating Display */}
+                  <div className="mt-2 text-yellow-500 text-lg">
+                    {"⭐".repeat(rating)}
+                  </div>
+                </CardHeader>
               </Card>
             </div>
           ))}
@@ -68,4 +83,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default Feedback;

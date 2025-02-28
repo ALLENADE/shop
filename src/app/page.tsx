@@ -11,6 +11,8 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import BestSeller from "@/components/home/BestSeller/BestSeller";
+import Feedback from "@/components/home/FeedBack/Feedback";
+import Footer from "@/components/footer/footer";
 
 export default function Home() {
   // State to track the current slide
@@ -132,8 +134,11 @@ export default function Home() {
         <div className="py-8">
           <BestSeller />
         </div>
-        <div className="py-8"></div>
+        <div className="py-8">
+          <Feedback />
+        </div>
       </main>
+      <Footer />
     </div>
   );
 }
